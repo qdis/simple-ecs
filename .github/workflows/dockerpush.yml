@@ -1,38 +1,21 @@
-name: Docker
+name: build
 
 on:
   push:
-    # Publish `main` as Docker `latest` image.
     branches:
       - main
 
-    # Publish `v1.2.3` tags as releases.
-    tags:
-      - v*
-
-  # Run tests for any PRs.
-  pull_request:
-
-env:
-  IMAGE_ID: docker.pkg.github.com/qids/simple-ecs/simple-ecs
-
 jobs:
-  build-push:
+  build:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
-
     steps:
-      - uses: actions/checkout@v2
-
-      - name: Build image
-        run: docker build . --file Dockerfile --tag $IMAGE_ID:latest
-
-      - name: Log into registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
-
-      - name: Push image
-        run: |
-          docker images
-          docker push $IMAGE_ID:latest
-
+      - uses: actions/checkout@v1
+      - name: Publish to Github Packages Registry
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: qdis/simple-ecs/simple-ecs-app
+          registry: docker.pkg.github.com
+          username: ${{ github.actor }}
+          password: ${{ secrets.githubTokenSecret }}
+          dockerfile: Dockerfile
 
