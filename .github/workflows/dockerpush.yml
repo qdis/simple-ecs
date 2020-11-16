@@ -16,6 +16,6 @@ jobs:
           name: qdis/simple-ecs/simple-ecs-app
           registry: docker.pkg.github.com
           username: ${{ github.actor }}
-          password: ${{ secrets.githubTokenSecret }}
+          password: ${{ secrets.GITHUB_TOKEN }}
           dockerfile: Dockerfile
 
