@@ -33,7 +33,7 @@ jobs:
 
       - name: Push image
         run: |
-          IMAGE_ID=docker.pkg.github.com/tbejan/samples/$IMAGE_NAME
+          IMAGE_ID=docker.pkg.github.com/qdis/samples/$IMAGE_NAME
 
           # Strip git ref prefix from version
           VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
